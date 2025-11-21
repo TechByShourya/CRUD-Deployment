@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: crud-application
+    env: java
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -jar target/CRUDapplication-0.0.1-SNAPSHOT.jar
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: crud-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: crud-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: crud-db
+          property: password
+
+databases:
+  - name: crud-db
+    plan: free
+    databaseName: ems
+    user: root
+
